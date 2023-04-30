@@ -1,13 +1,16 @@
 import dotenv from "dotenv";
-import { Character, Container, Room } from "./item";
+import { Character } from "./lib/thing/character";
+import { Item, ItemPrototype } from "./lib/thing/item";
+import { Room } from "./lib/thing/room";
 
 dotenv.config();
 
 const room = new Room();
-const item = new Container(room);
-room.addInventory(item);
+const item = new Item(new ItemPrototype());
+
+room.items.add(item);
 const player = new Character(room);
-room.addPerson(player);
+room.people.add(player);
 
 const room2 = new Room();
 player.moveTo(room2);
