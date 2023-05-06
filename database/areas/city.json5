@@ -1,0 +1,21 @@
+{
+  items: {
+    longsword: {
+      name: "a longsword",
+      description: "a longsword made of shiny metal",
+      material: "iron",
+      attack: {
+        type: "slashing",
+        dice: "1d8",
+      },
+      weight: 5
+    },
+  },
+  characters: {},
+  roooms: {},
+  resets: [
+    {
+      
+    }
+  ]
+}
