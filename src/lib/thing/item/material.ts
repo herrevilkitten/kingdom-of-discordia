@@ -1,11 +1,21 @@
-import { Attack } from "./weapon";
+import { Damage } from "./weapon";
+
+export interface MaterialFn {
+  (attack: Damage): number;
+}
+
+export interface MaterialMap {
+  [name: string]: number;
+}
 
 export interface MaterialType {
-  damageReduction?: (attack: Attack) => number;
+  onAttack?: MaterialFn | MaterialMap;
+  onDefense?: MaterialFn | MaterialMap;
 }
 
 export const Material: { [name: string]: MaterialType } = {
   Generic: {},
+  Iron: {}
 } as const;
 
 export function getMaterial(lookingFor: string) {

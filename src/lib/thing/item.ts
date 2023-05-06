@@ -21,6 +21,8 @@ export class ItemPrototype {
   id = "";
   name = "";
   description = "";
+  material = Material.Generic;
+  weapon?: Weapon;
 }
 
 export class Item extends Thing implements Weighable {

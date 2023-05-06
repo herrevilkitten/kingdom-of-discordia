@@ -1,28 +1,31 @@
 import { Dice } from "../../dice";
-import { Item } from "../item";
+import { Item, ItemPrototype } from "../item";
 
-export enum WeaponType {
-  Dagger,
-  Sword,
-  Mace,
-  Axe,
-}
+export const WeaponType = { Dagger: "short blades" } as const;
 
-export enum AttackType {
+export enum DamageType {
   None,
   Slashing,
   Piercing,
   Bashing,
 }
 
-export class Attack {
-  type = AttackType.None;
-  damage = new Dice();
+export function getDamageType(damageType: string) {
+  for (const [name, value] of Object.entries(DamageType)) {
+    if (name === damageType) {
+      return value as DamageType;
+    }
+  }
+  return undefined;
+}
+
+export class Damage {
+  type = DamageType.None;
+  amount = new Dice();
 }
 
 export class Weapon {
-  constructor(private base: Item) {}
+  constructor(private base: Item | ItemPrototype) {}
   weaponType = WeaponType.Dagger;
-  attack = new Attack();
+  damage = new Damage();
 }
-

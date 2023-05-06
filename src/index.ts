@@ -15,8 +15,8 @@ room.people.add(player);
 
 const room2 = new Room();
 player.moveTo(room2);
-console.log(room2);
+//console.log(room2);
 
 loadAreas().then((areas) => {
-  console.log(areas);
+//  console.log(areas);
 });
