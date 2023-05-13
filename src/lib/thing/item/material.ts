@@ -18,9 +18,10 @@ export const Material: { [name: string]: MaterialType } = {
   Iron: {}
 } as const;
 
-export function getMaterial(lookingFor: string) {
+export function getMaterial(text: string) {
+  text = text.toLowerCase();
   for (const [name, material] of Object.entries(Material)) {
-    if (name === lookingFor) {
+    if (name.toLowerCase() === text) {
       return material;
     }
   }

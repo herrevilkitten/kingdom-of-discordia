@@ -7,6 +7,7 @@ import JSON5 from "json5";
 import { Material, getMaterial } from "./lib/thing/item/material";
 import { Damage, DamageType, Weapon, getDamageType } from "./lib/thing/item/weapon";
 import { Dice } from "./lib/dice";
+import { Skill, SkillCategories, SkillCategory, getSkillCategory } from "./lib/skill";
 
 export const World = {
   rooms: new Map<string, Room>(),
@@ -16,6 +17,7 @@ export const World = {
     items: new Map<string, ItemPrototype>(),
     characters: new Map<string, CharacterPrototype>(),
   },
+  skills: new Map<string, Skill>(),
 };
 
 function loadItem(id: string, data: DatabaseItem) {
@@ -29,7 +31,7 @@ function loadItem(id: string, data: DatabaseItem) {
   if (data.weapon) {
     prototype.weapon = new Weapon(prototype);
     prototype.weapon.damage = new Damage();
-    prototype.weapon.damage.type = getDamageType(data.weapon.type) ?? DamageType.None;
+    prototype.weapon.damage.type = getDamageType(data.weapon.damage.type) ?? DamageType.None;
     prototype.weapon.damage.amount = Dice.parse(data.weapon.damage.amount) ?? new Dice();
   }
 
@@ -43,8 +45,22 @@ function loadArea(areaId: string, data: DatabaseArea) {
   }
 }
 
-const AREA_DIR = "./database/areas";
-export async function loadAreas() {
+function loadSkill(skillId: string, data: DatabaseSkill) {
+  const skill = new Skill();
+  skill.id = skillId;
+  skill.name = data.name;
+  skill.category = getSkillCategory(data.category) ?? SkillCategories.General;
+}
+
+
+const DATABASE_DIR = "./database";
+export async function readSkills() {
+  const file = await fs.readFile(join(DATABASE_DIR, "skills.json5"), "utf-8");
+  const skills = JSON5.parse(file) as DatabaseSkill;
+}
+
+const AREA_DIR = `${DATABASE_DIR}/areas`;
+export async function readAreas() {
   const dir = await fs.opendir(AREA_DIR);
   const areas: { [name: string]: DatabaseArea } = {};
   for await (const dirent of dir) {
@@ -56,29 +72,10 @@ export async function loadAreas() {
 
 }
 
-/*
-{
-  items: {
-    longsword: {
-      name: "a longsword",
-      description: "a longsword made of shiny metal",
-      material: "iron",
-      attack: {
-        type: "slashing",
-        dice: "1d8",
-      },
-      weight: 5
-    },
-  },
-  characters: {},
-  roooms: {},
-  resets: [
-    {
-      
-    }
-  ]
+export interface DatabaseSkill {
+  name: string;
+  category: string;
 }
-*/
 
 export interface DatabaseDamage {
   type: string;
@@ -86,7 +83,7 @@ export interface DatabaseDamage {
 }
 
 export interface DatabaseWeapon {
-  type: string;
+  skill: string;
   damage: DatabaseDamage;
 }
 
@@ -96,6 +93,10 @@ export interface DatabaseItem {
   material: string;
   weight: number;
   weapon?: DatabaseWeapon;
+}
+
+export interface DatabaseType {
+  weapon: { [name: string]: string };
 }
 
 export interface DatabaseArea {

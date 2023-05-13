@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { Character } from "./lib/thing/character";
 import { Item, ItemPrototype } from "./lib/thing/item";
 import { Room } from "./lib/thing/room";
-import { loadAreas } from "./database";
+import { readAreas } from "./database";
 
 dotenv.config();
 
@@ -17,6 +17,6 @@ const room2 = new Room();
 player.moveTo(room2);
 //console.log(room2);
 
-loadAreas().then((areas) => {
+readAreas().then((areas) => {
 //  console.log(areas);
 });

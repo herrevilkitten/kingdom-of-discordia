@@ -1,7 +1,6 @@
 import { Dice } from "../../dice";
+import { Skill } from "../../skill";
 import { Item, ItemPrototype } from "../item";
-
-export const WeaponType = { Dagger: "short blades" } as const;
 
 export enum DamageType {
   None,
@@ -26,6 +25,6 @@ export class Damage {
 
 export class Weapon {
   constructor(private base: Item | ItemPrototype) {}
-  weaponType = WeaponType.Dagger;
+  skill = new Skill();
   damage = new Damage();
 }

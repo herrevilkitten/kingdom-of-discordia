@@ -5,7 +5,7 @@
       description: "a longsword made of shiny metal",
       material: "iron",
       weapon: {
-        type: "sword",
+        skill: "long blades",
         damage: {
           type: "slashing",
           dice: "1d8",

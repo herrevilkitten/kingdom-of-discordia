@@ -1,0 +1,10 @@
+{
+  "short blade": {
+    name: "Short blade",
+    category: "weapon",
+  },
+  "long blade": {
+    name: "Long blade",
+    category: "weapon",
+  },
+}
